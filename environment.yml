@@ -1,0 +1,13 @@
+name: phimats_rve
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.12.7
+  - numpy
+  - numba
+  - h5py
+  - scipy
+  - matplotlib
+  - meshio
+  - gmsh
