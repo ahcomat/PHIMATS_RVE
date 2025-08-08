@@ -37,7 +37,7 @@ def Resample2D(Cx: np.ndarray, Mx: int, dx: float = 0.25e-6) -> np.ndarray :
 
 # -------------------------------------------------------------------------------------------------#
 
-def CreateStructuredMesh(Lx: float, Mx: int, filename: str = "RVE_structured", dim: int = 2, export_format: str = "inp"):
+def CreateStructuredMesh(Lx: float, Mx: int, filename: str = "RVE_Structured", dim: int = 2, export_format: str = "inp"):
 	"""
 	Creates a structured mesh for the RVE using Gmsh API.
  
