@@ -21,7 +21,7 @@ class Initializations:
         
     def Single(Phase: PhaseField, GID: int):
         """
-        initializes initial grain (back ground phase).
+        Initializes initial grain (back ground phase).
 
         Args:
             Phase (PhaseField): PhaseField object.
@@ -33,6 +33,48 @@ class Initializations:
         else :
             Phase.PhaseFields[GID, :, :] = 1
                 
+#-------------------------------------------------------------------------------------------------#
+        
+    def Mirror(Phase: PhaseField, GID: int, axis: str = "x"):
+        """
+        Adds a second grain mirrored along `x`, `y` or `z` axis. 
+
+        Args:
+            Phase (PhaseField): PhaseField object.
+            GID (int): Grain id.
+            axis (str, optional): Axis. Options are `x`, `y` or `z`. Defaults to `x`.
+
+        Raises:
+            ValueError: If axis not equal to `x`, `y` or `z`. 
+        """
+        
+        Nx, Ny = Phase.Nx, Phase.Ny
+        if Phase.is3D:
+            Nz = Phase.Nz
+
+        if axis == "y":
+            if Phase.is3D:
+                Phase.PhaseFields[GID, int(Ny/2):, :, :] = 1
+            else:
+                Phase.PhaseFields[GID, int(Ny/2):, :] = 1
+
+        elif axis == "x":
+            if Phase.is3D:
+                Phase.PhaseFields[GID, :, int(Nx/2):, :] = 1
+            else:
+                Phase.PhaseFields[GID, :, int(Nx/2):] = 1
+
+        elif axis == "z":
+            if not Phase.is3D:
+                raise ValueError("Z-axis mirroring is only available for 3D fields.")
+            Phase.PhaseFields[GID, :, :, int(Nz/2):] = 1
+
+        else:
+            raise ValueError("Invalid axis. Allowed values are  'x', 'y', or 'z'.")
+
+        # Update phase 0
+        Phase.PhaseFields[0, ...] = Phase.PhaseFields[0, ...] - Phase.PhaseFields[GID, ...]
+            
 #-------------------------------------------------------------------------------------------------#
         
     def Circle(Phase: PhaseField, GID: int, x0: float, y0: float, Radius: float = 3):
